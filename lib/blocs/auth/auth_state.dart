@@ -1,6 +1,25 @@
-part of 'auth_cubit.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-abstract class AuthState {}
+part 'auth_state.freezed.dart';
 
-class AuthInitial extends AuthState {}
+@freezed
+class AuthState with _$AuthState {
+  const AuthState._();
+
+  bool get isAuthorized => maybeMap(orElse: () => false, authorized: (_) => true);
+
+  const factory AuthState.unauthorized() = _UnauthorizedState;
+
+  const factory AuthState.authorized({
+    required String token,
+  }) = _AuthorizedState;
+
+  const factory AuthState.errorWithToken({
+    String? token,
+  }) = _ErrorWithTokenState;
+
+  const factory AuthState.wrongCredentials() = _WrongCredentialsState;
+
+  //:TODO сделать отдельный стейт для текстовой ошибки
+}

@@ -1,16 +1,17 @@
+import 'dart:async';
+
 import 'package:kplayer/kplayer.dart';
-import 'package:nota_music/player_decorator/player_decorator_state.dart';
+import 'package:nota_music/blocs/player_decorator/player_decorator_state.dart';
 import 'package:yandex_music_api_flutter/playlist/playlist.dart';
 import 'package:yandex_music_api_flutter/rotor/station.dart';
-import 'package:yandex_music_api_flutter/rotor/station_tracks_result.dart';
 import 'package:yandex_music_api_flutter/track/track.dart';
-import 'package:yandex_music_api_flutter/track/track_short.dart';
 import 'package:bloc/bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
-class PlayerDecorator extends Cubit<PlayerDecoratorState> {
-  PlayerDecorator() : super(PlayerDecoratorState());
+class PlayerDecoratorCubit extends Cubit<PlayerDecoratorState> {
+  PlayerDecoratorCubit() : super(const PlayerDecoratorState());
 
-  PlayerController? _playerInst;
+  PlayerController? playerInst;
 
   void playPlaylist(Playlist playlist) {
     emit(PlayerDecoratorState(
@@ -20,7 +21,7 @@ class PlayerDecorator extends Cubit<PlayerDecoratorState> {
     ));
 
     _playTrack(state.currPlayTrack);
-    _playerInst?.callback = (PlayerEvent e) => _playerCallback(e, true);
+    playerInst?.callback = (PlayerEvent e) => _playerCallback(e, true);
   }
 
   Future<void> playStation(Station station) async {
@@ -34,27 +35,73 @@ class PlayerDecorator extends Cubit<PlayerDecoratorState> {
     ));
 
     _playTrack(state.currPlayTrack);
-    _playerInst?.callback = (PlayerEvent e) => _playerCallback(e, false);
+    playerInst?.callback = (PlayerEvent e) => _playerCallback(e, false);
+  }
+
+  void setNewDuration(double seconds) {
+    playerInst?.position = Duration(seconds: seconds.round());
+  }
+
+  void prevTrack() {
+    final currPos = state.currPlaylist!.tracks!.indexWhere(
+      (element) => element.track.id == state.currPlayTrack!.id,
+    );
+    if (currPos == 0) {
+      return;
+    }
+
+    _playTrack(state.currPlaylist!.tracks![currPos - 1].track);
+  }
+
+  void nextTrack() => _onTrackEnded();
+
+  void likeTrack() {}
+
+  void dislikeTrack() {}
+
+  void playPauseTrack() {
+    if (playerInst != null) {
+      playerInst!.playing ? playerInst!.pause() : playerInst!.play();
+    }
   }
 
   void _playerCallback(PlayerEvent event, bool isPlayPlaylist) {
-    if(event == PlayerEvent.position){
-      ///changedPosition
-    }else {
-      emit(state.copyWith(playerStatus: _playerInst?.status));
+    if (event == PlayerEvent.end) {
+      //todo on track ended
+      _onTrackEnded();
+    } else {
+      emit(state.copyWith(playerStatus: playerInst?.status));
     }
   }
 
   Future<void> _playTrack(Track? track) async {
+    print('[Player_decorator_cubit] Play track: ${track.toString()}');
     if (track == null) return;
     final url = await track.getDownloadUrl();
     if (url == null) return;
     reInitPlayer(url);
-    _playerInst?.play();
+    playerInst?.play();
+    emit(state.copyWith(controller: playerInst));
   }
 
   void reInitPlayer(String url) {
-    _playerInst?.dispose();
-    _playerInst = Player.network(url, once: true);
+    playerInst?.stop();
+    playerInst?.dispose();
+    playerInst = Player.network(url, once: true)..init();
+  }
+
+  void _onTrackEnded() {
+    if (state.isPlayingRadio) {
+    } else {
+      final currPos = state.currPlaylist!.tracks!.indexWhere(
+        (element) => element.track.id == state.currPlayTrack!.id,
+      );
+
+      if (currPos + 1 >= state.currPlaylist!.tracks!.length) {
+        //last track
+        return;
+      }
+      _playTrack(state.currPlaylist!.tracks![currPos + 1].track);
+    }
   }
 }

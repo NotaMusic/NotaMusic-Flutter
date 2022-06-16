@@ -1,6 +1,13 @@
-part of 'main_page_cubit.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 
-@immutable
-abstract class MainPageState {}
 
-class MainPageInitial extends MainPageState {}
+part 'main_page_state.freezed.dart';
+
+@freezed
+class MainPageState with _$MainPageState {
+  const factory MainPageState({
+    List<Station>? stations,
+  }) = _MainPageState;
+}
