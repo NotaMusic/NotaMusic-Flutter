@@ -1,0 +1,3 @@
+[submodule "yandex-music-api-flutter"]
+	path = yandex-music-api-flutter
+	url = https://github.com/NotaMusic/yandex-music-api-flutter.git
