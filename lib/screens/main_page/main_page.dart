@@ -18,8 +18,12 @@ class MainPage extends StatelessWidget {
           actions: [
             BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) => state.isAuthorized
-                  ? IconButton(onPressed: () => _logout(context), icon: const Icon(Iconsax.logout))
-                  : IconButton(onPressed: () => _goToAuth(context), icon: const Icon(Iconsax.login)),
+                  ? IconButton(
+                      onPressed: () => _logout(context),
+                      icon: const Icon(Iconsax.logout))
+                  : IconButton(
+                      onPressed: () => _goToAuth(context),
+                      icon: const Icon(Iconsax.login)),
             )
           ],
           bottom: const TabBar(
@@ -45,7 +49,9 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  void _goToAuth(BuildContext context) => Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthScreen()));
+  void _goToAuth(BuildContext context) => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (_) => AuthScreen()));
 
-  void _logout(BuildContext context) => BlocProvider.of<AuthCubit>(context).logout();
+  void _logout(BuildContext context) =>
+      BlocProvider.of<AuthCubit>(context).logout();
 }

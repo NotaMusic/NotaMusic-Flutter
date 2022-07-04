@@ -26,12 +26,18 @@ class PlayerControls extends StatelessWidget {
                   stream: state.controller?.streams.position,
                   initialData: const Duration(seconds: 1),
                   builder: (context, snapshot) {
+                    final max =
+                        cubit.playerInst?.duration.inSeconds.toDouble() ?? 1;
+                    var pos = snapshot.data?.inSeconds.toDouble() ?? 0;
+                    if (pos < 0 || pos > max) {
+                      pos = 0;
+                    }
                     return Slider(
                       key: const ValueKey('playerNowPlayingPos'),
-                      value: snapshot.data?.inSeconds.toDouble() ?? 0,
+                      value: pos,
                       onChanged: (v) => cubit.setNewDuration(v),
                       min: 0,
-                      max: cubit.playerInst?.duration.inSeconds.toDouble() ?? 1,
+                      max: max,
                     );
                   },
                 ),
@@ -51,7 +57,10 @@ class PlayerControls extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (!state.isPlayingRadio) IconButton(onPressed: () => cubit.prevTrack(), icon: const Icon(Iconsax.previous)),
+        if (!state.isPlayingRadio)
+          IconButton(
+              onPressed: () => cubit.prevTrack(),
+              icon: const Icon(Iconsax.previous)),
         StreamBuilder<bool>(
           stream: state.controller?.streams.playing,
           initialData: false,
@@ -63,7 +72,8 @@ class PlayerControls extends StatelessWidget {
             ),
           ),
         ),
-        IconButton(onPressed: () => cubit.nextTrack(), icon: const Icon(Iconsax.next)),
+        IconButton(
+            onPressed: () => cubit.nextTrack(), icon: const Icon(Iconsax.next)),
         const SizedBox(
           width: 18,
         ),
@@ -79,7 +89,8 @@ class PlayerControls extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(state.currPlayTrack?.artists?.map((e) => e.name).join(',') ?? ''),
+            Text(state.currPlayTrack?.artists?.map((e) => e.name).join(',') ??
+                ''),
             const SizedBox(
               height: 4,
             ),
@@ -89,8 +100,12 @@ class PlayerControls extends StatelessWidget {
         const SizedBox(
           width: 18,
         ),
-        IconButton(onPressed: () => cubit.likeTrack(), icon: const Icon(Iconsax.like_1)),
-        IconButton(onPressed: () => cubit.dislikeTrack(), icon: const Icon(Iconsax.dislike)),
+        IconButton(
+            onPressed: () => cubit.likeTrack(),
+            icon: const Icon(Iconsax.like_1)),
+        IconButton(
+            onPressed: () => cubit.dislikeTrack(),
+            icon: const Icon(Iconsax.dislike)),
       ],
     );
   }
