@@ -18,7 +18,7 @@ class AuthScreen extends StatelessWidget {
           listener: (context, state) {
             state.maybeWhen(
               orElse: () {},
-              authorized: (token) {
+              authorized: (token,_) {
                 Client.instance.setTokenForClient(token);
                 Navigator.of(context).pop();
               },

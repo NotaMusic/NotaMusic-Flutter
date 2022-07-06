@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:yandex_music_api_flutter/account/account.dart';
 
 part 'auth_state.freezed.dart';
 
@@ -13,10 +14,12 @@ class AuthState with _$AuthState {
 
   const factory AuthState.authorized({
     required String token,
+    required Account account,
   }) = _AuthorizedState;
 
   const factory AuthState.errorWithToken({
     String? token,
+    Account? account,
   }) = _ErrorWithTokenState;
 
   const factory AuthState.wrongCredentials() = _WrongCredentialsState;

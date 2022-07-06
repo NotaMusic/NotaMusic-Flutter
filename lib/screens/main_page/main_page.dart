@@ -5,6 +5,7 @@ import 'package:nota_music/blocs/auth/auth_cubit.dart';
 import 'package:nota_music/blocs/auth/auth_state.dart';
 import 'package:nota_music/screens/auth_screen/auth_screen.dart';
 import 'package:nota_music/screens/main_page/motor_tab/motor_tab.dart';
+import 'package:nota_music/screens/main_page/playlists_tab/playlists_tab.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -40,9 +41,7 @@ class MainPage extends StatelessWidget {
               child: Text('Home under dev'),
             ),
             MotorTab(),
-            Center(
-              child: Text('Playlists under dev'),
-            ),
+            PlaylistsTab(),
           ],
         ),
       ),

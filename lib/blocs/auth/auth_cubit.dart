@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:nota_music/blocs/auth/auth_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yandex_music_api_flutter/account/account.dart';
 import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -16,7 +17,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   void setAuthToken(String token) async {
     await _setToken(token);
-    emit(AuthState.authorized(token: token));
+    emit(
+      AuthState.authorized(
+          token: token,
+          account: (await Client.instance.getAccountRotorStatus()).account!),
+    );
   }
 
   void logout() {
@@ -32,8 +37,12 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> _restoreState() async {
     final token = prefs.getString(tokenKey);
     if (token != null) {
-      emit(AuthState.authorized(token: token));
       Client.instance.setTokenForClient(token);
+      emit(
+        AuthState.authorized(
+            token: token,
+            account: (await Client.instance.getAccountRotorStatus()).account!),
+      );
     }
   }
 
