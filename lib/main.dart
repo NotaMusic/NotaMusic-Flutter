@@ -50,23 +50,19 @@ class MyApp extends StatelessWidget {
               value: AuthCubit(),
             ),
           ],
-          child: Stack(
-            children: [
-              SizedBox(
+          child: Column(children: [
+            Expanded(
+              child: widget ?? const SizedBox.shrink(),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: widget ?? const SizedBox.shrink(),
+                // ignore: prefer_const_constructors
+                child: PlayerControls(),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  // ignore: prefer_const_constructors
-                  child: PlayerControls(),
-                ),
-              )
-            ],
-          ),
+            ),
+          ]),
         );
       },
     );
