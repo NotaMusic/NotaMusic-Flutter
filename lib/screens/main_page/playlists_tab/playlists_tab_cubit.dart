@@ -7,6 +7,9 @@ import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 part 'playlists_tab_state.dart';
 part 'playlists_tab_cubit.freezed.dart';
 
+
+//TODO Для «мне нравится» есть отдельный метод или хак через константный ID = 1003
+
 class PlaylistsTabCubit extends Cubit<PlaylistsTabState> {
   final AuthCubit authCubit;
 

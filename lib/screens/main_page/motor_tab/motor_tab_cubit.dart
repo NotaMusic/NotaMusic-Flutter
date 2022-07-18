@@ -4,6 +4,12 @@ import 'package:nota_music/blocs/auth/auth_cubit.dart';
 import 'package:nota_music/screens/main_page/motor_tab/motor_tab_state.dart';
 import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 
+
+
+//TODO На счет Моей волны.
+// Кажись, что это просто радио с ID user:onyourwave. Но в приложении (Android) 
+//используются другие эндпоинты. Но старые, те что в библиотеке тоже работают
+
 class MotorTabCubit extends Cubit<MotorTabState> {
   MotorTabCubit(this.authCubit) : super(const MotorTabState.loading());
 
