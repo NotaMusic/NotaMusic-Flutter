@@ -8,6 +8,12 @@ class PlaylistsTabState with _$PlaylistsTabState {
     required List<Playlist> playlists,
   }) = _LoadingDoneState;
 
+  const factory PlaylistsTabState.loadingSelectedPlaylist({
+    required List<Playlist> playlists,
+    required Playlist selectedPlaylist,
+  }) = _LoadingSelectedPlaylist;
+
+
   const factory PlaylistsTabState.playlistSelected({
     required List<Playlist> playlists,
     required Playlist selectedPlaylist,

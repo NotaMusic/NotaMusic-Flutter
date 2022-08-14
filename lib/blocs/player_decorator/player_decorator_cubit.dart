@@ -57,7 +57,7 @@ class PlayerDecoratorCubit extends Cubit<PlayerDecoratorState> {
 
   void prevTrack() {
     final currPos = state.currPlaylist!.tracks!.indexWhere(
-      (element) => element.track.id == state.currPlayTrack!.id,
+      (element) => element.track?.id == state.currPlayTrack!.id,
     );
     if (currPos == 0) {
       return;
@@ -76,6 +76,16 @@ class PlayerDecoratorCubit extends Cubit<PlayerDecoratorState> {
     if (playerInst != null) {
       playerInst!.playing ? playerInst!.pause() : playerInst!.play();
     }
+  }
+
+  void playTrackInPlaylist({required Playlist playlist, required Track track}) {
+    emit(PlayerDecoratorState(
+      currPlayStation: null,
+      currPlaylist: playlist,
+      currPlayTrack: track,
+    ));
+    _playTrack(track);
+    playerInst?.callback = (PlayerEvent e) => _playerCallback(e, true);
   }
 
   void _playerCallback(PlayerEvent event, bool isPlayPlaylist) {
@@ -131,7 +141,7 @@ class PlayerDecoratorCubit extends Cubit<PlayerDecoratorState> {
       }
     } else {
       final currPos = state.currPlaylist!.tracks!.indexWhere(
-        (element) => element.track.id == state.currPlayTrack!.id,
+        (element) => element.track?.id == state.currPlayTrack!.id,
       );
 
       if (currPos + 1 >= state.currPlaylist!.tracks!.length) {
@@ -143,8 +153,7 @@ class PlayerDecoratorCubit extends Cubit<PlayerDecoratorState> {
   }
 
   Future<void> _getNewRotorSequence() async {
-    final currPlayStationTracks = await state.currPlayStation!
-        .getTracksRes(queue: state.currPlayTrack!.id);
+    final currPlayStationTracks = await state.currPlayStation!.getTracksRes(queue: state.currPlayTrack!.id);
     if (currPlayStationTracks == null) return;
     Client.instance.rotorStationFeedback(
       station: state.currPlayStation!,

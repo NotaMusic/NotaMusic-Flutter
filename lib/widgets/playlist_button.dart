@@ -15,6 +15,7 @@ class PlaylistButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onClick,
       child: Column(
         mainAxisSize: MainAxisSize.min,

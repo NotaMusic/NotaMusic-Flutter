@@ -3,13 +3,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:nota_music/blocs/auth/auth_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yandex_music_api_flutter/account/account.dart';
 import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   static const tokenKey = 'TOKEN';
 
   late final SharedPreferences prefs;
+
 
   AuthCubit() : super(const AuthState.unauthorized()) {
     _init();

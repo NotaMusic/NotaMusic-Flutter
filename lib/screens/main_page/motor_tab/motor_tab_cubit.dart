@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nota_music/blocs/auth/auth_cubit.dart';
 import 'package:nota_music/screens/main_page/motor_tab/motor_tab_state.dart';
+import 'package:yandex_music_api_flutter/rotor/id.dart';
 import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 
 //TODO На счет Моей волны.
@@ -20,8 +21,16 @@ class MotorTabCubit extends Cubit<MotorTabState> {
       final resp = await Client.instance.getRotorStationList();
       final stations =
           resp?.map((e) => e.station).where((element) => element != null).cast<Station>().toList();
+
       if (stations != null) {
-        emit(MotorTabState.loaded(stations: stations));
+        emit(MotorTabState.loaded(stations: [
+          Station(
+            id: Id(type: 'user', tag: 'onyourwave'),
+            name: 'Моя волна',
+            idForFrom: "",
+          ),
+          ...stations
+        ]));
       } else {
         emit(const MotorTabState.error(error: 'Яндекс не вернул список станций'));
       }

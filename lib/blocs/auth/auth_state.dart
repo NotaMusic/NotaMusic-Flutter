@@ -10,6 +10,13 @@ class AuthState with _$AuthState {
 
   bool get isAuthorized => maybeMap(orElse: () => false, authorized: (_) => true);
 
+  Account? get account => map(
+        unauthorized: (s) => null,
+        authorized: (s) => s.account,
+        errorWithToken: (s) => s.account,
+        wrongCredentials: (s) => null,
+      );
+
   const factory AuthState.unauthorized() = _UnauthorizedState;
 
   const factory AuthState.authorized({
