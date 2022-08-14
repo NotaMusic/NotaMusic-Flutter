@@ -34,6 +34,19 @@ class _$AppRouter extends RootStackRouter {
     PlaylistsTabRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const PlaylistsTab());
+    },
+    PlaylistScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<PlaylistScreenRouteArgs>(
+          orElse: () => PlaylistScreenRouteArgs(
+              ownerId: pathParams.getString('ownerId'),
+              playlistKind: pathParams.getString('playlistKind')));
+      return MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: PlaylistScreen(
+              ownerId: args.ownerId,
+              playlistKind: args.playlistKind,
+              key: args.key));
     }
   };
 
@@ -43,7 +56,10 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig(MotorTabRoute.name,
               path: '', parent: MainPageController.name),
           RouteConfig(PlaylistsTabRoute.name,
-              path: 'playlists-tab', parent: MainPageController.name)
+              path: 'playlists-tab', parent: MainPageController.name),
+          RouteConfig(PlaylistScreenRoute.name,
+              path: 'playlist/:ownerId/:playlistKind',
+              parent: MainPageController.name)
         ]),
         RouteConfig(AuthScreenRoute.name, path: '/auth-screen')
       ];
@@ -94,4 +110,34 @@ class PlaylistsTabRoute extends PageRouteInfo<void> {
       : super(PlaylistsTabRoute.name, path: 'playlists-tab');
 
   static const String name = 'PlaylistsTabRoute';
+}
+
+/// generated route for
+/// [PlaylistScreen]
+class PlaylistScreenRoute extends PageRouteInfo<PlaylistScreenRouteArgs> {
+  PlaylistScreenRoute(
+      {required String ownerId, required String playlistKind, Key? key})
+      : super(PlaylistScreenRoute.name,
+            path: 'playlist/:ownerId/:playlistKind',
+            args: PlaylistScreenRouteArgs(
+                ownerId: ownerId, playlistKind: playlistKind, key: key),
+            rawPathParams: {'ownerId': ownerId, 'playlistKind': playlistKind});
+
+  static const String name = 'PlaylistScreenRoute';
+}
+
+class PlaylistScreenRouteArgs {
+  const PlaylistScreenRouteArgs(
+      {required this.ownerId, required this.playlistKind, this.key});
+
+  final String ownerId;
+
+  final String playlistKind;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'PlaylistScreenRouteArgs{ownerId: $ownerId, playlistKind: $playlistKind, key: $key}';
+  }
 }

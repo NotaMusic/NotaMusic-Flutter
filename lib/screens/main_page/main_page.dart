@@ -18,6 +18,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading:  AutoLeadingButton(),
         actions: [
           BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) => state.isAuthorized
@@ -39,8 +40,12 @@ class MainPage extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                  onTap: () => context.router.push(const PlaylistsTabRoute()),
-                  child: const Tab(icon: Icon(Iconsax.music_playlist), child: Text('Playlists'))),
+                onTap: () => context.router.push(const PlaylistsTabRoute()),
+                child: const Tab(
+                  icon: Icon(Iconsax.music_playlist),
+                  child: Text('Playlists'),
+                ),
+              ),
             ],
           ),
           const Expanded(
@@ -50,41 +55,6 @@ class MainPage extends StatelessWidget {
         ],
       ),
     );
-
-    // return DefaultTabController(
-    //   length: 3,
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       actions: [
-    //         BlocBuilder<AuthCubit, AuthState>(
-    //           builder: (context, state) => state.isAuthorized
-    //               ? IconButton(
-    //                   onPressed: () => _logout(context),
-    //                   icon: const Icon(Iconsax.logout))
-    //               : IconButton(
-    //                   onPressed: () => _goToAuth(context),
-    //                   icon: const Icon(Iconsax.login)),
-    //         )
-    //       ],
-    //       bottom: const TabBar(
-    //         tabs: [
-    //           Tab(icon: Icon(Iconsax.home), child: Text('Home')),
-    //           Tab(icon: Icon(Iconsax.radio), child: Text('Radio')),
-    //           Tab(icon: Icon(Iconsax.music_playlist), child: Text('Playlists')),
-    //         ],
-    //       ),
-    //     ),
-    //     body: const TabBarView(
-    //       children: [
-    //         Center(
-    //           child: Text('Home under dev'),
-    //         ),
-    //         MotorTab(),
-    //         PlaylistsTab(),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   void _goToAuth(BuildContext context) =>

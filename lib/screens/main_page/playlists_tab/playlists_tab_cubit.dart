@@ -38,7 +38,7 @@ class PlaylistsTabCubit extends Cubit<PlaylistsTabState> {
     }
 
     final playlists = await Client.instance.usersPlaylistsList(id.toString());
-    final likedPlaylist = await Client.instance.playlistList(['${authCubit.state.account?.uid}:1003']);
+    final likedPlaylist = await Client.instance.playlistList(['${authCubit.state.account?.uid}:3']);
 
     final likedPlaylists = (await Client.instance.getLikes(
       type: LikeType.playlist,
@@ -65,58 +65,58 @@ class PlaylistsTabCubit extends Cubit<PlaylistsTabState> {
     );
   }
 
-  Future<void> selectPlaylist(Playlist playlist) async {
-    final currPlaylist = List<Playlist>.from(
-      state.whenOrNull(
-        loadingDone: (playlists) => playlists,
-      ) ?? [],
-    );
+  // Future<void> selectPlaylist(Playlist playlist) async {
+  //   final currPlaylist = List<Playlist>.from(
+  //     state.whenOrNull(
+  //       loadingDone: (playlists) => playlists,
+  //     ) ?? [],
+  //   );
 
-    try {
-      emit(PlaylistsTabState.loadingSelectedPlaylist(
-        playlists: currPlaylist,
-        selectedPlaylist: playlist,
-      ));
+  //   try {
+  //     emit(PlaylistsTabState.loadingSelectedPlaylist(
+  //       playlists: currPlaylist,
+  //       selectedPlaylist: playlist,
+  //     ));
 
-      final loadedPlaylist = await (await Client.instance
-              .usersPlaylistsList(playlist.uid.toString(), kind: [playlist.kind.toString()]))
-          ?.first
-          .getNormalWithTracks();
+  //     final loadedPlaylist = await (await Client.instance
+  //             .usersPlaylistsList(playlist.uid.toString(), kind: [playlist.kind.toString()]))
+  //         ?.first
+  //         .getNormalWithTracks();
 
-      if (loadedPlaylist == null) {
-        emit(PlaylistsTabState.error(
-            playlists: currPlaylist,
-            selectedPlaylist: playlist,
-            errorText: "Cant get tracks from playlist ${playlist.kind}"));
-      }
+  //     if (loadedPlaylist == null) {
+  //       emit(PlaylistsTabState.error(
+  //           playlists: currPlaylist,
+  //           selectedPlaylist: playlist,
+  //           errorText: "Cant get tracks from playlist ${playlist.kind}"));
+  //     }
 
-      final pos = currPlaylist.indexOf(playlist);
-      currPlaylist.removeAt(pos);
-      currPlaylist.insert(pos, loadedPlaylist!);
+  //     final pos = currPlaylist.indexOf(playlist);
+  //     currPlaylist.removeAt(pos);
+  //     currPlaylist.insert(pos, loadedPlaylist!);
 
-      emit(PlaylistsTabState.playlistSelected(
-        playlists: currPlaylist,
-        selectedPlaylist: loadedPlaylist,
-      ));
-    } catch (ex) {
-      emit(PlaylistsTabState.error(
-          playlists: currPlaylist,
-          selectedPlaylist: playlist,
-          errorText: "Have error when loading playlist ${playlist.kind}, ERROR: ${ex.toString()}"));
-    }
-  }
+  //     emit(PlaylistsTabState.playlistSelected(
+  //       playlists: currPlaylist,
+  //       selectedPlaylist: loadedPlaylist,
+  //     ));
+  //   } catch (ex) {
+  //     emit(PlaylistsTabState.error(
+  //         playlists: currPlaylist,
+  //         selectedPlaylist: playlist,
+  //         errorText: "Have error when loading playlist ${playlist.kind}, ERROR: ${ex.toString()}"));
+  //   }
+  // }
 
-  void closePlaylist() {
-    emit(
-      PlaylistsTabState.loadingDone(
-        playlists: state.when(
-          loading: () => <Playlist>[],
-          loadingDone: (p) => p,
-          playlistSelected: (p, _) => p,
-          loadingSelectedPlaylist: (p, _) => p,
-          error: (p, _, __) => p ?? <Playlist>[],
-        ),
-      ),
-    );
-  }
+  // void closePlaylist() {
+  //   emit(
+  //     PlaylistsTabState.loadingDone(
+  //       playlists: state.when(
+  //         loading: () => <Playlist>[],
+  //         loadingDone: (p) => p,
+  //         playlistSelected: (p, _) => p,
+  //         loadingSelectedPlaylist: (p, _) => p,
+  //         error: (p, _, __) => p ?? <Playlist>[],
+  //       ),
+  //     ),
+  //   );
+  // }
 }
