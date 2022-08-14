@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nota_music/blocs/auth/auth_cubit.dart';
@@ -6,6 +7,7 @@ import 'package:nota_music/screens/main_page/motor_tab/motor_tab_cubit.dart';
 import 'package:nota_music/screens/main_page/motor_tab/motor_tab_state.dart';
 import 'package:nota_music/widgets/station_button.dart';
 
+@AutoRoute()
 class MotorTab extends StatelessWidget {
   const MotorTab({Key? key}) : super(key: key);
 

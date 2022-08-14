@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nota_music/blocs/auth/auth_cubit.dart';
@@ -5,6 +6,8 @@ import 'package:nota_music/blocs/player_decorator/player_decorator_cubit.dart';
 import 'package:nota_music/screens/main_page/playlists_tab/playlists_tab_cubit.dart';
 import 'package:nota_music/widgets/playlist_button.dart';
 import 'package:nota_music/widgets/track_in_list.dart';
+
+@AutoRoute()
 
 class PlaylistsTab extends StatelessWidget {
   const PlaylistsTab({Key? key}) : super(key: key);

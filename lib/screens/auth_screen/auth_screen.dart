@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,8 @@ import 'package:nota_music/blocs/auth/auth_cubit.dart';
 import 'package:nota_music/blocs/auth/auth_state.dart';
 import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 
+
+@AutoRoute()
 class AuthScreen extends StatelessWidget {
   AuthScreen({Key? key}) : super(key: key);
 
