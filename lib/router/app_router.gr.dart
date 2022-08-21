@@ -35,18 +35,11 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const PlaylistsTab());
     },
-    PlaylistScreenRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<PlaylistScreenRouteArgs>(
-          orElse: () => PlaylistScreenRouteArgs(
-              ownerId: pathParams.getString('ownerId'),
-              playlistKind: pathParams.getString('playlistKind')));
+    DetailItemPageRoute.name: (routeData) {
+      final args = routeData.argsAs<DetailItemPageRouteArgs>();
       return MaterialPageX<dynamic>(
           routeData: routeData,
-          child: PlaylistScreen(
-              ownerId: args.ownerId,
-              playlistKind: args.playlistKind,
-              key: args.key));
+          child: DetailItemPage(arg: args.arg, key: args.key));
     }
   };
 
@@ -57,9 +50,8 @@ class _$AppRouter extends RootStackRouter {
               path: '', parent: MainPageController.name),
           RouteConfig(PlaylistsTabRoute.name,
               path: 'playlists-tab', parent: MainPageController.name),
-          RouteConfig(PlaylistScreenRoute.name,
-              path: 'playlist/:ownerId/:playlistKind',
-              parent: MainPageController.name)
+          RouteConfig(DetailItemPageRoute.name,
+              path: 'detail/', parent: MainPageController.name)
         ]),
         RouteConfig(AuthScreenRoute.name, path: '/auth-screen')
       ];
@@ -113,31 +105,24 @@ class PlaylistsTabRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [PlaylistScreen]
-class PlaylistScreenRoute extends PageRouteInfo<PlaylistScreenRouteArgs> {
-  PlaylistScreenRoute(
-      {required String ownerId, required String playlistKind, Key? key})
-      : super(PlaylistScreenRoute.name,
-            path: 'playlist/:ownerId/:playlistKind',
-            args: PlaylistScreenRouteArgs(
-                ownerId: ownerId, playlistKind: playlistKind, key: key),
-            rawPathParams: {'ownerId': ownerId, 'playlistKind': playlistKind});
+/// [DetailItemPage]
+class DetailItemPageRoute extends PageRouteInfo<DetailItemPageRouteArgs> {
+  DetailItemPageRoute({required DetailItemPageArg arg, Key? key})
+      : super(DetailItemPageRoute.name,
+            path: 'detail/', args: DetailItemPageRouteArgs(arg: arg, key: key));
 
-  static const String name = 'PlaylistScreenRoute';
+  static const String name = 'DetailItemPageRoute';
 }
 
-class PlaylistScreenRouteArgs {
-  const PlaylistScreenRouteArgs(
-      {required this.ownerId, required this.playlistKind, this.key});
+class DetailItemPageRouteArgs {
+  const DetailItemPageRouteArgs({required this.arg, this.key});
 
-  final String ownerId;
-
-  final String playlistKind;
+  final DetailItemPageArg arg;
 
   final Key? key;
 
   @override
   String toString() {
-    return 'PlaylistScreenRouteArgs{ownerId: $ownerId, playlistKind: $playlistKind, key: $key}';
+    return 'DetailItemPageRouteArgs{arg: $arg, key: $key}';
   }
 }

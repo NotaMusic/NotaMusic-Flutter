@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nota_music/blocs/auth/auth_cubit.dart';
 import 'package:nota_music/blocs/player_decorator/player_decorator_cubit.dart';
 import 'package:nota_music/router/app_router.dart';
+import 'package:nota_music/screens/main_page/detail_item_page/detail_item_page.dart';
+import 'package:nota_music/screens/main_page/detail_item_page/detail_item_page_arg.dart';
 import 'package:nota_music/screens/main_page/playlists_tab/playlists_tab_cubit.dart';
 import 'package:nota_music/widgets/playlist_button.dart';
 import 'package:nota_music/widgets/track_in_list.dart';
@@ -35,9 +37,11 @@ class PlaylistsTab extends StatelessWidget {
               itemBuilder: (context, pos) => PlaylistButton(
                 playlist: playlists[pos],
                 onClick: () => context.router.push(
-                  PlaylistScreenRoute(
-                    ownerId: playlists[pos].uid.toString(),
-                    playlistKind: playlists[pos].kind.toString(),
+                  DetailItemPageRoute(
+                    arg: DetailItemPageArg.playlist(
+                      ownerId: playlists[pos].uid.toString(),
+                      playlistKind: playlists[pos].kind.toString(),
+                    ),
                   ),
                 ),
               ),

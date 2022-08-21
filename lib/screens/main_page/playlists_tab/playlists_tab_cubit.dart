@@ -7,7 +7,7 @@ import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 part 'playlists_tab_state.dart';
 part 'playlists_tab_cubit.freezed.dart';
 
-//TODO Для «мне нравится» есть отдельный метод или хак через константный ID = 1003
+
 
 class PlaylistsTabCubit extends Cubit<PlaylistsTabState> {
   final AuthCubit authCubit;
@@ -65,58 +65,4 @@ class PlaylistsTabCubit extends Cubit<PlaylistsTabState> {
     );
   }
 
-  // Future<void> selectPlaylist(Playlist playlist) async {
-  //   final currPlaylist = List<Playlist>.from(
-  //     state.whenOrNull(
-  //       loadingDone: (playlists) => playlists,
-  //     ) ?? [],
-  //   );
-
-  //   try {
-  //     emit(PlaylistsTabState.loadingSelectedPlaylist(
-  //       playlists: currPlaylist,
-  //       selectedPlaylist: playlist,
-  //     ));
-
-  //     final loadedPlaylist = await (await Client.instance
-  //             .usersPlaylistsList(playlist.uid.toString(), kind: [playlist.kind.toString()]))
-  //         ?.first
-  //         .getNormalWithTracks();
-
-  //     if (loadedPlaylist == null) {
-  //       emit(PlaylistsTabState.error(
-  //           playlists: currPlaylist,
-  //           selectedPlaylist: playlist,
-  //           errorText: "Cant get tracks from playlist ${playlist.kind}"));
-  //     }
-
-  //     final pos = currPlaylist.indexOf(playlist);
-  //     currPlaylist.removeAt(pos);
-  //     currPlaylist.insert(pos, loadedPlaylist!);
-
-  //     emit(PlaylistsTabState.playlistSelected(
-  //       playlists: currPlaylist,
-  //       selectedPlaylist: loadedPlaylist,
-  //     ));
-  //   } catch (ex) {
-  //     emit(PlaylistsTabState.error(
-  //         playlists: currPlaylist,
-  //         selectedPlaylist: playlist,
-  //         errorText: "Have error when loading playlist ${playlist.kind}, ERROR: ${ex.toString()}"));
-  //   }
-  // }
-
-  // void closePlaylist() {
-  //   emit(
-  //     PlaylistsTabState.loadingDone(
-  //       playlists: state.when(
-  //         loading: () => <Playlist>[],
-  //         loadingDone: (p) => p,
-  //         playlistSelected: (p, _) => p,
-  //         loadingSelectedPlaylist: (p, _) => p,
-  //         error: (p, _, __) => p ?? <Playlist>[],
-  //       ),
-  //     ),
-  //   );
-  // }
 }

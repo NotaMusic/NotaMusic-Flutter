@@ -6,7 +6,6 @@ import 'package:nota_music/blocs/auth/auth_cubit.dart';
 import 'package:nota_music/blocs/auth/auth_state.dart';
 import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 
-
 @AutoRoute()
 class AuthScreen extends StatelessWidget {
   AuthScreen({Key? key}) : super(key: key);
@@ -21,7 +20,7 @@ class AuthScreen extends StatelessWidget {
           listener: (context, state) {
             state.maybeWhen(
               orElse: () {},
-              authorized: (token,_) {
+              authorized: (token, _) {
                 Client.instance.setTokenForClient(token);
                 Navigator.of(context).pop();
               },
@@ -74,14 +73,12 @@ class AuthScreen extends StatelessWidget {
             //validToken
             webview.close();
             BlocProvider.of<AuthCubit>(context).setAuthToken(token);
+            Navigator.of(context).pop(true);
           }
         } catch (ex) {}
       }
-      print('WebView callback : $url');
     });
-    webview.launch("https://oauth.yandex.ru/authorize?response_type=token&client_id=23cabbbdc6cd418abb4b39c32c41195d");
-
-
-    
+    webview.launch(
+        "https://oauth.yandex.ru/authorize?response_type=token&client_id=23cabbbdc6cd418abb4b39c32c41195d");
   }
 }
