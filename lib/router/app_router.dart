@@ -6,6 +6,7 @@ import 'package:nota_music/screens/main_page/detail_item_page/detail_item_page_a
 import 'package:nota_music/screens/main_page/main_page.dart';
 import 'package:nota_music/screens/main_page/motor_tab/motor_tab.dart';
 import 'package:nota_music/screens/main_page/playlists_tab/playlists_tab.dart';
+import 'package:nota_music/screens/main_page/search_page/search_page.dart';
 
 part 'app_router.gr.dart';
 
@@ -19,6 +20,7 @@ part 'app_router.gr.dart';
       children: [
         AutoRoute(page: MotorTab, path: ''),
         AutoRoute(page: PlaylistsTab),
+        AutoRoute(page: SearchPage),
         AutoRoute(page: DetailItemPage, path: 'detail/'),
       ],
     ),

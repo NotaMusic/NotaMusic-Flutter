@@ -18,7 +18,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading:  AutoLeadingButton(),
+        leading:  const AutoLeadingButton(),
         actions: [
           BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) => state.isAuthorized
@@ -31,7 +31,7 @@ class MainPage extends StatelessWidget {
         children: [
           Column(
             children: [
-              Tab(icon: Icon(Iconsax.home), child: Text('Home')),
+              const Tab(icon: Icon(Iconsax.home), child:  Text('Home')),
               GestureDetector(
                 onTap: () => context.router.push(const MotorTabRoute()),
                 child: const Tab(
@@ -46,6 +46,12 @@ class MainPage extends StatelessWidget {
                   child: Text('Playlists'),
                 ),
               ),
+              GestureDetector(
+                onTap: () => context.router.push(const SearchPageRoute()),
+                child: const Tab(icon: Icon(Iconsax.glass), child: Text('Search')),
+              ),
+              
+
             ],
           ),
           const Expanded(

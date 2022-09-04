@@ -25,6 +25,8 @@ dependencies:
   rxdart: 0.27.4
   shared_preferences: 2.0.15
 
+  grouped_list: ^5.1.2
+
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

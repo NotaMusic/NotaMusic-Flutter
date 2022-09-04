@@ -35,6 +35,10 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const PlaylistsTab());
     },
+    SearchPageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const SearchPage());
+    },
     DetailItemPageRoute.name: (routeData) {
       final args = routeData.argsAs<DetailItemPageRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -50,6 +54,8 @@ class _$AppRouter extends RootStackRouter {
               path: '', parent: MainPageController.name),
           RouteConfig(PlaylistsTabRoute.name,
               path: 'playlists-tab', parent: MainPageController.name),
+          RouteConfig(SearchPageRoute.name,
+              path: 'search-page', parent: MainPageController.name),
           RouteConfig(DetailItemPageRoute.name,
               path: 'detail/', parent: MainPageController.name)
         ]),
@@ -102,6 +108,14 @@ class PlaylistsTabRoute extends PageRouteInfo<void> {
       : super(PlaylistsTabRoute.name, path: 'playlists-tab');
 
   static const String name = 'PlaylistsTabRoute';
+}
+
+/// generated route for
+/// [SearchPage]
+class SearchPageRoute extends PageRouteInfo<void> {
+  const SearchPageRoute() : super(SearchPageRoute.name, path: 'search-page');
+
+  static const String name = 'SearchPageRoute';
 }
 
 /// generated route for

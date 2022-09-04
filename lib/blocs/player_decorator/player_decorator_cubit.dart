@@ -46,7 +46,7 @@ class PlayerDecoratorCubit extends Cubit<PlayerDecoratorState> {
     Client.instance.rotorStationFeedback(
       station: station,
       feedback: StationFeedback.trackStarted,
-      trackId: state.currPlayTrack!.id,
+      trackId: state.currPlayTrack!.id.toString(),
     );
     playerInst?.callback = (PlayerEvent e) => _playerCallback(e, false);
   }
@@ -119,13 +119,13 @@ class PlayerDecoratorCubit extends Cubit<PlayerDecoratorState> {
         Client.instance.rotorStationFeedback(
           station: state.currPlayStation!,
           feedback: StationFeedback.skip,
-          trackId: state.currPlayTrack!.id,
+          trackId: state.currPlayTrack!.id.toString(),
         );
       } else {
         Client.instance.rotorStationFeedback(
           station: state.currPlayStation!,
           feedback: StationFeedback.trackFinished,
-          trackId: state.currPlayTrack!.id,
+          trackId: state.currPlayTrack!.id.toString(),
         );
       }
 
@@ -153,12 +153,12 @@ class PlayerDecoratorCubit extends Cubit<PlayerDecoratorState> {
   }
 
   Future<void> _getNewRotorSequence() async {
-    final currPlayStationTracks = await state.currPlayStation!.getTracksRes(queue: state.currPlayTrack!.id);
+    final currPlayStationTracks = await state.currPlayStation!.getTracksRes(queue: state.currPlayTrack!.id.toString());
     if (currPlayStationTracks == null) return;
     Client.instance.rotorStationFeedback(
       station: state.currPlayStation!,
       feedback: StationFeedback.radioStarted,
-      trackId: state.currPlayTrack!.id,
+      trackId: state.currPlayTrack!.id.toString(),
       batchId: currPlayStationTracks.batchId,
     );
 
