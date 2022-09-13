@@ -34,7 +34,13 @@ class DetailItemPage extends StatelessWidget {
           ),
           loaded: (content) {
             return content.when(
-              playlist: (playlist) => ListView.builder(
+              playlist: (playlist) => Column(
+                children: [
+                  Row(children: [
+                    playlist.getCoverImage() == null ? const SizedBox.shrink() : SizedBox(height: 64, child: Image.network(playlist.getCoverImage()!),),
+                    Text(playlist.title ?? 'Playlist')
+                  ],),
+                  Expanded(child: ListView.builder(
                 itemCount: playlist.tracks!.length,
                 itemBuilder: (context, pos) => TrackInList(
                   track: playlist.tracks![pos].track!,
@@ -43,8 +49,45 @@ class DetailItemPage extends StatelessWidget {
                     track: playlist.tracks![pos].track!,
                   ),
                 ),
+              ))
+                ],
               ),
               error: (error) => Center(child: Text(error)),
+              album: (album) => Column(
+                children: [
+                  Row(
+                    children: [
+                      album.getCoverImage() == null
+                          ? const SizedBox.shrink()
+                          : SizedBox(
+                              height: 64,
+                              child: Image.network(album.getCoverImage()!),
+                            ),
+                      Text(album.title ?? 'Album'),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: album.tracks?.length ?? 0,
+                          itemBuilder: (item, pos) => TrackInList(
+                            track: album.tracks![pos],
+                            onClick: () => BlocProvider.of<PlayerDecoratorCubit>(context).playTrackInPlaylist(
+                              playlist: album.toPlaylist(),
+                              track: album.tracks![pos],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+              artist: (artist) => Column(children: [
+                Row(children: [
+                  artist.getCoverImage() == null ? const SizedBox.shrink() : SizedBox(height: 64, child: Image.network(artist.getCoverImage()!),),
+                  Text(artist.title ?? 'Artist'),
+                ],),
+                // Expanded(child: ListView.builder(itemCount: artist.volumes, itemBuilder: (context, pos)=> ) )
+              ],
+              ),
             );
           },
         );

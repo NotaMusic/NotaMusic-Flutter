@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nota_music/blocs/auth/auth_cubit.dart';
 import 'package:nota_music/screens/main_page/detail_item_page/detail_item_page_arg.dart';
+import 'package:yandex_music_api_flutter/album/album.dart';
 import 'package:yandex_music_api_flutter/yandex_music_api_flutter.dart';
 
 part 'detail_item_page_state.dart';
@@ -51,7 +52,36 @@ class DetailItemPageCubit extends Cubit<DetailItemPageState> {
     }
   }
 
-  Future<void> _loadAlbum(String artistId, String albumId) async {}
+  Future<void> _loadAlbum(String artistId, String albumId) async {
+    try {
+      final resp = await Client.instance.getAlbumWithTracks(albumId);
+      if (resp.error == null) {
+        emit(
+          DetailItemPageState.loaded(
+            content: DetailItemPageStateContent.album(resp),
+          ),
+        );
+      } else {
+        emit(
+          DetailItemPageState.error(
+            content: DetailItemPageStateContent.error(
+              "Cant get album with id = $albumId",
+            ),
+          ),
+        );
+      }
+    } catch (ex) {
+      emit(
+        DetailItemPageState.error(
+          content: DetailItemPageStateContent.error(
+            "Have error when loading album id = $albumId, ERROR: ${ex.toString()}",
+          ),
+        ),
+      );
+    }
+  }
 
-  Future<void> _loadArtist(String artistId) async {}
+  Future<void> _loadArtist(String artistId) async {
+    
+  }
 }

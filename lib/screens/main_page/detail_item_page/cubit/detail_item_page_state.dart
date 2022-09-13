@@ -18,5 +18,7 @@ class DetailItemPageState with _$DetailItemPageState {
 @freezed
 class DetailItemPageStateContent with _$DetailItemPageStateContent {
   factory DetailItemPageStateContent.playlist(Playlist playlist) = _Playlist;
+  factory DetailItemPageStateContent.album(Album album) = _Album;
+  factory DetailItemPageStateContent.artist(Album artist) = _Artist;
   factory DetailItemPageStateContent.error(String errorStr) = _ErrorContent;
 }
